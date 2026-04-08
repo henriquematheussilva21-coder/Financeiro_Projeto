@@ -30,5 +30,21 @@
         "valor": 500.0,
         "categoria": "freelance",
         "data": "07/04/2026"
+    },
+    {
+        "id": 5,
+        "tipo": "receita",
+        "descricao": "aposta",
+        "valor": 150.0,
+        "categoria": "outros",
+        "data": "08/04/2026"
+    },
+    {
+        "id": 6,
+        "tipo": "despesa",
+        "descricao": "oficina",
+        "valor": 320.0,
+        "categoria": "transporte",
+        "data": "08/04/2026"
     }
 ]

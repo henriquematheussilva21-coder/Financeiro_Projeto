@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "tipo": "receita",
+        "descricao": "Salário",
+        "valor": 3000.0,
+        "categoria": "salário",
+        "data": "05/04/2026"
+    },
+    {
+        "id": 2,
+        "tipo": "despesa",
+        "descricao": "Mercado",
+        "valor": 450.5,
+        "categoria": "alimentação",
+        "data": "06/04/2026"
+    },
+    {
+        "id": 3,
+        "tipo": "despesa",
+        "descricao": "Uber",
+        "valor": 35.0,
+        "categoria": "transporte",
+        "data": "06/04/2026"
+    },
+    {
+        "id": 4,
+        "tipo": "receita",
+        "descricao": "Freela",
+        "valor": 500.0,
+        "categoria": "freelance",
+        "data": "07/04/2026"
+    }
+]

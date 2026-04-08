@@ -10,14 +10,11 @@ from utils.validacoes import (
 # Serviço já carrega o arquivo JSON quando inicia
 controle = FinanceiroService()
 
-
 def limpar_tela():
     print("\n" * 2)
 
-
 def linha():
     print("-" * 55)
-
 
 def mostrar_menu():
     linha()
@@ -31,7 +28,6 @@ def mostrar_menu():
     print("  [0] Sair")
     linha()
 
-
 def pedir_dado(mensagem, funcao_validacao):
     while True:
         entrada = input(mensagem)
@@ -39,6 +35,7 @@ def pedir_dado(mensagem, funcao_validacao):
             return funcao_validacao(entrada)
         except ValueError as erro:
             print(f"  Erro: {erro}")
+
 
 
 def adicionar_transacao():
@@ -60,6 +57,7 @@ def adicionar_transacao():
     print(f"  {transacao}")
 
 
+
 def listar_transacoes():
     print("\nLista de transações")
     linha()
@@ -76,6 +74,7 @@ def listar_transacoes():
     print(f"\n  Quantidade total: {len(transacoes)}")
 
 
+
 def mostrar_saldo():
     print("\nResumo Financeiro")
     linha()
@@ -90,6 +89,7 @@ def mostrar_saldo():
         print(f"  Saldo atual: R$ {saldo:.2f}")
     else:
         print(f"  Saldo atual: R$ {saldo:.2f} (negativo)")
+
 
 
 def filtrar_categoria():
@@ -112,10 +112,11 @@ def filtrar_categoria():
     
     print()
     for transacao in resultados:
-        print(f" {transacao}")
+        print(f"  {transacao}")
 
     total = sum(item.valor for item in resultados)
-    print(f"\n Total na categoria '{categoria}': R${total:.2f}")
+    print(f"\n Total na categoria '{categoria}': R$ {total:.2f}")
+
 
 
 def mostrar_categorias():
@@ -130,6 +131,7 @@ def mostrar_categorias():
     
     for indice, categoria in enumerate(categorias, start=1):
         print(f"  {indice}. {categoria}")
+
 
 
 

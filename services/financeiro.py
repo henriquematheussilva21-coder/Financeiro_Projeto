@@ -58,3 +58,16 @@ class FinanceiroService:
 
     def listar_transacoes(self):
         return self.transacoes
+    
+    def calcular_saldo(self):
+        receitas = sum(t.valor for t in self.transacoes if t.tipo == "receita")
+        despesas = sum(t.valor for t in self.transacoes if t.tipo == "despesas")
+        saldo = receitas - despesas
+        return receitas, despesas, saldo
+    
+    def filtrar_por_categoria(self, categoria):
+        categoria = categoria.lower()
+        return [t for t in self.transacoes if t.categoria.lower() == categoria]
+    
+    def listar_categorias(self):
+        return sorted(set(t.categoria for t in self.transacoes))

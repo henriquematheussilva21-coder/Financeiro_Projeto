@@ -76,13 +76,69 @@ def listar_transacoes():
     print(f"\n  Quantidade total: {len(transacoes)}")
 
 
+def mostrar_saldo():
+    print("\nResumo Financeiro")
+    linha()
+
+    receitas, despesas, saldo = controle.calcular_saldo()
+
+    print(f"  Receitas: R$ {receitas:.2f}")
+    print(f"  Despesas: R$ {despesas:.2f}")
+    linha()
+
+    if saldo >= 0:
+        print(f"  Saldo atual: R$ {saldo:.2f}")
+    else:
+        print(f"  Saldo atual: R$ {saldo:.2f} (negativo)")
+
+
+def filtrar_categoria():
+    print("\nFiltro por categoria")
+    linha()
+
+    categorias = controle.listar_categorias()
+    if not categorias:
+        print("  Não existe nenhuma transação cadastrada ainda.")
+        return
+    
+    print(f"  Categorias encontradas: {', '.join(categorias)}")
+    categoria = pedir_dado("  Qual categoria deseja buscar? ", validar_categoria)
+
+    resultados = controle.filtrar_por_categoria(categoria)
+
+    if not resultados:
+        print("  Nenhuma transação encontrada nessa categoria.")
+        return
+    
+    print()
+    for transacao in resultados:
+        print(f" {transacao}")
+
+    total = sum(item.valor for item in resultados)
+    print(f"\n Total na categoria '{categoria}': R${total:.2f}")
+
+
+def mostrar_categorias():
+    print("\nCategorias cadastradas")
+    linha()
+
+    categorias = controle.listar_categorias()
+
+    if not categorias:
+        print("  Nenhuma categoria foi usada ainda.")
+        return
+    
+    for indice, categoria in enumerate(categorias, start=1):
+        print(f"  {indice}. {categoria}")
+
+
+
 def main():
     print("\nBem-vindo ao sistema de controle financeiro.\n")
 
     while True:
         limpar_tela()
         mostrar_menu()
-
         opcao = input("  Escolha uma opção: ").strip()
 
         if opcao == "1":
@@ -90,13 +146,13 @@ def main():
         elif opcao == "2":
             listar_transacoes()
         elif opcao == "3":
-            print("  Funcionalidade ainda não implementada.")
+            mostrar_saldo()
         elif opcao == "4":
-            print("  Funcionalidade ainda não implementada.")
+            filtrar_categoria()
         elif opcao == "5":
-            print("  Funcionalidade ainda não implementada.")
+            mostrar_categorias()
         elif opcao == "0":
-            print("\nSaindo...")
+            print("\nSaindo do sistema. Dados salvos com sucesso.")
             break
         else:
             print("  Opção inválida.")

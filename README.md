@@ -44,13 +44,13 @@ projeto_financeiro_humanizado/
 1. Clone o repositório:
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/henriquematheussilva21-coder/Financeiro_Projeto
 ```
 
 2. Entre na pasta do projeto:
 
 ```bash
-cd projeto_financeiro_humanizado
+cd Financeiro_Projeto
 ```
 
 3. Execute o arquivo principal:

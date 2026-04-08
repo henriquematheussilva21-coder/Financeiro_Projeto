@@ -24,6 +24,20 @@ Este projeto foi desenvolvido para a disciplina de Python com o objetivo de apli
 - mostrar categorias já utilizadas
 - salvar dados automaticamente em arquivo JSON
 
+## Diagrama simples (estrutura do sistema)
+
+```text
+Usuário
+   ↓
+main.py (interface / menu)
+   ↓
+FinanceiroService (lógica do sistema)
+   ↓
+Transacao (modelo de dados)
+   ↓
+Arquivo JSON (persistência)
+```
+
 ## Estrutura do projeto
 
 ```bash
@@ -107,13 +121,13 @@ O sistema valida:
 
 O projeto atende aos requisitos principais da atividade:
 
-- Python como linguagem principal
-- estrutura modular
-- uso de classe
-- persistência de dados
-- interface CLI
-- tratamento de erros
-- validação de dados
+- O sistema deve ser desenvolvido utilizando Python.
+- O sistema deve possuir estrutura modular (separação em arquivos).
+- O sistema deve utilizar programação orientada a objetos.
+- O sistema deve persistir dados em arquivo JSON.
+- O sistema deve funcionar via terminal (CLI).
+- O sistema deve possuir validação de dados de entrada.
+- O sistema deve tratar erros sem interromper a execução.
 
 ## Autores
 

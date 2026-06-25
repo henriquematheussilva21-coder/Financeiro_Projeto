@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Transações — Controle Financeiro{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Transações</h1>
+  <a href="{{ url_for('nova_transacao') }}" class="btn btn-primary">+ Nova transação</a>
+</div>
+
+<!-- Filtragem por categoria -->
+<form method="GET" action="{{ url_for('listar') }}" class="filtro-form">
+  <select name="categoria" onchange="this.form.submit()">
+    <option value="">Todas as categorias</option>
+    {% for cat in categorias %}
+      <option value="{{ cat }}" {% if cat == categoria_filtro %}selected{% endif %}>{{ cat }}</option>
+    {% endfor %}
+  </select>
+  {% if categoria_filtro %}
+    <a href="{{ url_for('listar') }}" class="btn btn-outline">Limpar filtro</a>
+  {% endif %}
+</form>
+
+{% if transacoes %}
+  <table class="tabela">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Data</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Categoria</th>
+        <th>Valor</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in transacoes %}
+      <tr>
+        <td class="id-col">{{ t.id }}</td>
+        <td>{{ t.data }}</td>
+        <td><span class="badge badge-{{ t.tipo }}">{{ t.tipo }}</span></td>
+        <td>{{ t.descricao }}</td>
+        <td>{{ t.categoria }}</td>
+        <td class="valor-{{ t.tipo }}">
+          {% if t.tipo == "receita" %}+{% else %}-{% endif %}
+          R$ {{ "%.2f"|format(t.valor) }}
+        </td>
+        <td class="acoes">
+          <a href="{{ url_for('editar_transacao', id=t.id) }}" class="btn btn-sm btn-outline">Editar</a>
+          <form method="POST" action="{{ url_for('excluir_transacao', id=t.id) }}" style="display:inline"
+                onsubmit="return confirm('Excluir essa transação?')">
+            <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p class="total-registros">{{ transacoes|length }} transação(ões) encontrada(s)
+    {% if categoria_filtro %}na categoria <strong>{{ categoria_filtro }}</strong>{% endif %}
+  </p>
+
+{% else %}
+  <p class="empty-state">
+    {% if categoria_filtro %}
+      Nenhuma transação encontrada na categoria <strong>{{ categoria_filtro }}</strong>.
+    {% else %}
+      Nenhuma transação cadastrada ainda. <a href="{{ url_for('nova_transacao') }}">Adicionar agora</a>
+    {% endif %}
+  </p>
+{% endif %}
+
+{% endblock %}

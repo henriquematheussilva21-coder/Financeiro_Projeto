@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Controle Financeiro{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Dashboard</h1>
+  <a href="{{ url_for('nova_transacao') }}" class="btn btn-primary">+ Nova transação</a>
+</div>
+
+<!-- Cards -->
+<div class="cards-grid">
+  <div class="card card-receita">
+    <span class="card-label">Receitas</span>
+    <span class="card-valor">R$ {{ "%.2f"|format(receitas) }}</span>
+  </div>
+  <div class="card card-despesa">
+    <span class="card-label">Despesas</span>
+    <span class="card-valor">R$ {{ "%.2f"|format(despesas) }}</span>
+  </div>
+  <div class="card {% if saldo >= 0 %}card-saldo-pos{% else %}card-saldo-neg{% endif %}">
+    <span class="card-label">Saldo atual</span>
+    <span class="card-valor">R$ {{ "%.2f"|format(saldo) }}</span>
+  </div>
+</div>
+
+<!-- Gráficos -->
+<div class="charts-grid">
+  <div class="chart-box">
+    <h2>Receitas vs Despesas</h2>
+    <canvas id="grafico-barras"></canvas>
+  </div>
+  <div class="chart-box">
+    <h2>Gastos por categoria</h2>
+    {% if resumo_categorias %}
+      <canvas id="grafico-pizza"></canvas>
+    {% else %}
+      <p class="empty-state">Nenhuma transação registrada ainda.</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Últimas transações -->
+<div class="section">
+  <div class="section-header">
+    <h2>Últimas transações</h2>
+    <a href="{{ url_for('listar') }}" class="link-ver-todas">Ver todas →</a>
+  </div>
+
+  {% if transacoes %}
+    <table class="tabela">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Tipo</th>
+          <th>Descrição</th>
+          <th>Categoria</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in transacoes %}
+        <tr>
+          <td>{{ t.data }}</td>
+          <td><span class="badge badge-{{ t.tipo }}">{{ t.tipo }}</span></td>
+          <td>{{ t.descricao }}</td>
+          <td>{{ t.categoria }}</td>
+          <td class="valor-{{ t.tipo }}">
+            {% if t.tipo == "receita" %}+{% else %}-{% endif %}
+            R$ {{ "%.2f"|format(t.valor) }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="empty-state">Nenhuma transação registrada ainda. <a href="{{ url_for('nova_transacao') }}">Adicionar agora</a></p>
+  {% endif %}
+</div>
+
+<!-- Scripts dos gráficos -->
+<script>
+  new Chart(document.getElementById("grafico-barras"), {
+    type: "bar",
+    data: {
+      labels: ["Receitas", "Despesas"],
+      datasets: [{
+        data: [{{ receitas }}, {{ despesas }}],
+        backgroundColor: ["#22c55e", "#ef4444"],
+        borderRadius: 8,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+
+  {% if resumo_categorias %}
+  new Chart(document.getElementById("grafico-pizza"), {
+    type: "doughnut",
+    data: {
+      labels: {{ resumo_categorias.keys() | list | tojson }},
+      datasets: [{
+        data: {{ resumo_categorias.values() | list | tojson }},
+        backgroundColor: [
+          "#6366f1","#22c55e","#f59e0b","#ef4444",
+          "#3b82f6","#ec4899","#14b8a6","#f97316","#8b5cf6"
+        ],
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      plugins: { legend: { position: "bottom" } }
+    }
+  });
+  {% endif %}
+</script>
+
+{% endblock %}

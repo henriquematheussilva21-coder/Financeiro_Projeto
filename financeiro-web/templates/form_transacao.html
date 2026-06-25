@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ acao }} Transação — Controle Financeiro{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>{{ acao }} transação</h1>
+  <a href="{{ url_for('listar') }}" class="btn btn-outline">← Voltar</a>
+</div>
+
+<div class="form-container">
+  <form method="POST">
+
+    <div class="form-group">
+      <label for="tipo">Tipo</label>
+      <div class="radio-group">
+        <label class="radio-option {% if form.get('tipo') == 'receita' %}selected{% endif %}">
+          <input type="radio" name="tipo" value="receita"
+                 {% if form.get('tipo') == 'receita' %}checked{% endif %} required>
+          <span>✅ Receita</span>
+        </label>
+        <label class="radio-option {% if form.get('tipo') == 'despesa' %}selected{% endif %}">
+          <input type="radio" name="tipo" value="despesa"
+                 {% if form.get('tipo') == 'despesa' %}checked{% endif %}>
+          <span>🔴 Despesa</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="descricao">Descrição</label>
+      <input type="text" id="descricao" name="descricao"
+             placeholder="Ex: Salário, Mercado, Uber..."
+             value="{{ form.get('descricao', '') }}"
+             maxlength="100" required />
+    </div>
+
+    <div class="form-group">
+      <label for="valor">Valor (R$)</label>
+      <input type="text" id="valor" name="valor"
+             placeholder="Ex: 150,00"
+             value="{{ form.get('valor', '') }}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="categoria">Categoria</label>
+      <input type="text" id="categoria" name="categoria"
+             placeholder="Digite ou escolha abaixo"
+             value="{{ form.get('categoria', '') }}"
+             list="categorias-lista" required />
+      <datalist id="categorias-lista">
+        {% for cat in categorias_padrao %}
+          <option value="{{ cat }}">
+        {% endfor %}
+      </datalist>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Salvar transação</button>
+      <a href="{{ url_for('listar') }}" class="btn btn-outline">Cancelar</a>
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}

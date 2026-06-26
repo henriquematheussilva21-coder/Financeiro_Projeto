@@ -1,135 +1,107 @@
-# Controle Financeiro Pessoal
+# 💰 Financeiro Web
 
-Projeto desenvolvido para a disciplina de Python com o objetivo de praticar conceitos de programação na construção de um sistema simples de controle financeiro.
+Sistema de controle financeiro pessoal desenvolvido com Flask e SQLite, como projeto da disciplina de Programação de Computadores (P8A - 2026.1).
 
-A ideia foi criar uma aplicação em terminal que permitisse registrar receitas e despesas, visualizar informações salvas e acompanhar o saldo de forma prática.  
+## 📋 Descrição
 
-## Objetivo do projeto
+Aplicação web para gerenciamento de finanças pessoais, permitindo registrar receitas e despesas, visualizar o saldo atual, acompanhar gastos por categoria e analisar o histórico de transações por meio de gráficos interativos.
 
-Este projeto foi desenvolvido para a disciplina de Python com o objetivo de aplicar:
+Este projeto é uma evolução de um sistema CLI desenvolvido anteriormente em Python, agora com interface web completa, banco de dados relacional e novas funcionalidades como edição, exclusão e dashboard com gráficos.
 
-- modularização
-- programação orientada a objetos
-- persistência de dados em JSON
-- validação de entradas
-- tratamento de erros
-- organização de código seguindo boas práticas
+## 🚀 Funcionalidades
 
-## Funcionalidades
+- Cadastrar receitas e despesas
+- Listar todas as transações
+- Editar e excluir transações
+- Calcular saldo, total de receitas e total de despesas
+- Filtrar transações por categoria
+- Dashboard com gráfico de barras (Receitas vs Despesas)
+- Dashboard com gráfico de pizza (Gastos por categoria)
 
-- cadastrar receita ou despesa
-- listar todas as transações
-- calcular saldo total
-- filtrar transações por categoria
-- mostrar categorias já utilizadas
-- salvar dados automaticamente em arquivo JSON
+## 🛠️ Tecnologias
 
-## Diagrama simples (estrutura do sistema)
+- Python 3.13
+- Flask 3.1
+- Flask-SQLAlchemy 3.1
+- SQLite
+- HTML5 + CSS3
+- Chart.js 4.4
 
+## 📁 Estrutura do Projeto
 ```text
-Usuário
-   ↓
-main.py (interface / menu)
-   ↓
-FinanceiroService (lógica do sistema)
-   ↓
-Transacao (modelo de dados)
-   ↓
-Arquivo JSON (persistência)
-```
-
-## Estrutura do projeto
-
-```bash
-projeto_financeiro_humanizado/
-├── main.py
+financeiro-web/
+├── app.py                  # Rotas e configuração do Flask
+├── database.py             # Instância do SQLAlchemy
+├── requirements.txt        # Dependências do projeto
 ├── models/
-│   └── transacao.py
+│   └── transacao.py        # Modelo de dados
 ├── services/
-│   └── financeiro.py
+│   └── financeiro.py       # Regras de negócio
 ├── utils/
-│   └── validacoes.py
+│   └── validacoes.py       # Validações de entrada
+├── templates/
+│   ├── base.html           # Template base com navbar
+│   ├── index.html          # Dashboard principal
+│   ├── transacoes.html     # Listagem de transações
+│   └── form_transacao.html # Formulário de cadastro/edição
+├── static/
+│   └── style.css           # Estilização da interface
 └── data/
-    └── transacoes.json
+    └── financeiro.db       # Banco de dados SQLite (gerado automaticamente)
 ```
 
-## Como executar
+## ⚙️ Como executar
 
-1. Clone o repositório:
-
+**1. Clone o repositório:**
 ```bash
-git clone https://github.com/henriquematheussilva21-coder/Financeiro_Projeto
+git clone https://github.com/henriquematheussilva21-coder/financeiro-web.git
+cd financeiro-web
 ```
 
-2. Entre na pasta do projeto:
-
+**2. Configure a versão do Python:**
 ```bash
-cd Financeiro_Projeto
+pyenv local 3.13.0
 ```
 
-3. Execute o arquivo principal:
-
+**3. Instale as dependências:**
 ```bash
-python main.py
+pip install -r requirements.txt
 ```
 
-## Exemplo de uso
+**4. Execute a aplicação:**
+```bash
+python app.py
+```
 
-Ao iniciar o sistema, o menu principal será exibido no terminal:
+**5. Acesse no navegador:**
+```bash
+http://127.0.0.1:5000
+```
+
+## 🗄️ Diagrama do Banco de Dados
 
 ```text
-[1] Adicionar transação
-[2] Listar transações
-[3] Ver saldo
-[4] Filtrar por categoria
-[5] Ver categorias
-[0] Sair
+┌─────────────────────────┐
+│        transacoes       │
+├─────────────────────────┤
+│ id          INTEGER (PK)│
+│ tipo        STRING(10)  │
+│ descricao   STRING(100) │
+│ valor       FLOAT       │
+│ categoria   STRING(50)  │
+│ data        STRING(10)  │
+└─────────────────────────┘
 ```
 
-## Decisões tomadas no projeto
+## 📌 Casos de Uso Principais
 
-- Optei por usar interface em terminal porque a ideia era focar primeiro na lógica do sistema.
-- Usei JSON para persistência por ser mais simples de implementar nesta etapa do projeto.
-- Separei o código em model, service e utils para evitar misturar responsabilidades e facilitar manutenção.
-- Preferi aceitar valor com vírgula porque isso fica mais natural para o usuário brasileiro.
+- **Registrar transação:** usuário preenche tipo, descrição, valor e categoria
+- **Visualizar dashboard:** sistema exibe saldo, gráficos e últimas transações
+- **Filtrar por categoria:** usuário seleciona uma categoria e visualiza apenas suas transações
+- **Editar transação:** usuário altera os dados de uma transação existente
+- **Excluir transação:** usuário remove uma transação com confirmação
 
-## Validações implementadas
+## 👤 Autor
 
-O sistema valida:
-
-- tipo da transação (`receita` ou `despesa`)
-- valor maior que zero
-- descrição não vazia
-- categoria não vazia
-
-## Limitações atuais
-
-- ainda não possui edição ou remoção de transações
-- não gera relatório mensal
-- não possui gráficos
-- não usa banco de dados
-
-## Melhorias futuras
-
-- adicionar edição e exclusão de transações
-- gerar relatórios por período
-- exportar dados para CSV
-- criar uma interface gráfica ou API
-- adicionar testes automatizados
-
-## Requisitos atendidos
-
-O projeto atende aos requisitos principais da atividade:
-
-- O sistema deve ser desenvolvido utilizando Python.
-- O sistema deve possuir estrutura modular (separação em arquivos).
-- O sistema deve utilizar programação orientada a objetos.
-- O sistema deve persistir dados em arquivo JSON.
-- O sistema deve funcionar via terminal (CLI).
-- O sistema deve possuir validação de dados de entrada.
-- O sistema deve tratar erros sem interromper a execução.
-
-## Autores
-
-- Matheus Henrique
-- Alexandre Tavares
+**Matheus Henrique dos Santos Silva**  
+Disciplina: Programação de Computadores — P8A (2026.1)
